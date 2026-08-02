@@ -1,4 +1,4 @@
-name: Export validated pstar run 5 artifact
+name: Export validated pstar run 6 artifact
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api /repos/${GITHUB_REPOSITORY}/actions/artifacts/8828046848/zip > artifact.zip
+          gh api /repos/${GITHUB_REPOSITORY}/actions/artifacts/8828326721/zip > artifact.zip
           mkdir artifact
           unzip -q artifact.zip -d artifact
           (cd artifact && zip -qr ../AnyKernel3-pstar-stock-ksun-susfs-vermagic.zip .)
@@ -25,10 +25,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create ksun-stock-vermagic-run5 \
+          gh release create ksun-stock-modules-run6 \
             AnyKernel3-pstar-stock-ksun-susfs-vermagic.zip \
             artifact/Image \
             --repo "$GITHUB_REPOSITORY" \
             --target Lineage_pstar \
-            --title "pstar stock KernelSU Next + SUSFS (vermagic compatible)" \
-            --notes "Validated GitHub Actions run 30731091390; expected kernel release 4.19.157-perf+."
+            --title "pstar stock KernelSU Next + SUSFS (modules compatible)" \
+            --notes "Validated GitHub Actions run 30731894349; kernel release 4.19.157-perf+ and CONFIG_MODULE_SIG_FORCE disabled."
