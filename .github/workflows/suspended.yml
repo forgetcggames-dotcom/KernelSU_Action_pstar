@@ -1,8 +1,5 @@
 name: Build Stock T1RAS33.55-15-10-6 KSU-Next SUSFS for pstar
 on:
-  push:
-    branches:
-      - Lineage_pstar
   workflow_dispatch:
 
 jobs:
