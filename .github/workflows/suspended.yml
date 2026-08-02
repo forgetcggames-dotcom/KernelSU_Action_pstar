@@ -191,6 +191,7 @@ jobs:
         arch/arm64/configs/vendor/ext_config/pstar-default.config \
         arch/arm64/configs/vendor/debugfs.config \
         >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        echo '# CONFIG_MODULE_SIG_FORCE is not set' >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
 
     - name: Download Patches
       run: |
@@ -513,6 +514,7 @@ jobs:
         RELEASE=$(make -s CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} kernelrelease)
         echo "Kernel release: $RELEASE"
         test "$RELEASE" = "4.19.157-perf+"
+        grep -q '^# CONFIG_MODULE_SIG_FORCE is not set' out/.config
 
     - name: Check a kernel output files
       run: |
