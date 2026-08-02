@@ -1,5 +1,8 @@
 name: Build Stock T1RAS33.55-15-10-6 KSU-Next SUSFS for pstar
 on:
+  push:
+    branches: [Lineage_pstar]
+    paths: [.github/workflows/suspended.yml, suspended.env, shared.env]
   workflow_dispatch:
 
 jobs:
@@ -502,6 +505,14 @@ jobs:
         else
             make -j$(nproc --all) CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }}
         fi
+
+    - name: Verify stock module release compatibility
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/bin:$PATH
+        RELEASE=$(make -s CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} kernelrelease)
+        echo "Kernel release: $RELEASE"
+        test "$RELEASE" = "4.19.157-perf+"
 
     - name: Check a kernel output files
       run: |
